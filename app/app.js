@@ -70,7 +70,8 @@ Ext.onReady(function() {
     clicksToEdit: 1
   });
 
-  new shaman.Grid({
+  var grid = new shaman.Grid({
+    region: 'center',
     store: store,
     plugins: rowEditing,
     tbar: [{
@@ -83,8 +84,13 @@ Ext.onReady(function() {
 
         rowEditing.startEdit(0, 0);
       }
-    }],
-    renderTo: Ext.getBody()
+    }]
+  });
+
+  new Ext.Viewport({
+    layout: 'border',
+    renderTo: Ext.getBody(),
+    items: [grid]
   });
 
 });
