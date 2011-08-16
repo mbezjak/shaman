@@ -1,5 +1,6 @@
 Ext.define('shaman.Show', {
   extend: 'Ext.data.Model',
+  idProperty: 'name',
   fields: [
     { name: 'name',    type: 'string' },
     { name: 'group',   type: 'string' },
