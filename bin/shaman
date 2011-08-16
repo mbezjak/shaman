@@ -1,0 +1,35 @@
+#!/usr/bin/env python2.7
+
+import sys
+from os import path
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from PyQt4.QtWebKit import *
+
+bindir     = path.dirname(path.realpath(__file__))
+shamanhome = path.realpath(path.join(bindir, '..'))
+datafile   = path.join(shamanhome, 'data/data.json')
+indexfile  = path.join(shamanhome, 'app/index.html')
+
+class Storage(QObject):
+    @pyqtSlot(result=str)
+    def read(self):
+        if path.isfile(datafile):
+            with open(datafile, 'r+') as f:
+                return f.read()
+        else: return '[]'
+
+    @pyqtSlot(QVariant)
+    def write(self, value):
+        with open(datafile, 'w+') as f:
+            f.write(value.toString())
+
+
+app = QApplication(sys.argv)
+
+web = QWebView()
+web.load(QUrl(indexfile))
+web.page().mainFrame().addToJavaScriptWindowObject('shamanStorage', Storage())
+web.show()
+
+sys.exit(app.exec_())
