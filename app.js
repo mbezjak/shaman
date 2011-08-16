@@ -61,3 +61,30 @@ Ext.define('shaman.Grid', {
   selType: 'rowmodel',
   features: [{ ftype: 'grouping' }]
 });
+
+Ext.onReady(function() {
+
+  var store = new shaman.Store();
+
+  var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+    clicksToEdit: 1
+  });
+
+  new shaman.Grid({
+    store: store,
+    plugins: rowEditing,
+    tbar: [{
+      text: 'Add Show',
+      handler: function() {
+        rowEditing.cancelEdit();
+
+        var show = Ext.ModelManager.create({}, 'shaman.Show');
+        store.insert(0, show);
+
+        rowEditing.startEdit(0, 0);
+      }
+    }],
+    renderTo: Ext.getBody()
+  });
+
+});
