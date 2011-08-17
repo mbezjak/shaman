@@ -26,12 +26,18 @@ class Storage(QObject):
         with open(datafile, 'w+') as f:
             f.write(str(value))
 
+class WebPage(QWebPage):
+    def javaScriptConsoleMessage(self, msg, line, source):
+        print '%s line %d: %s' % (source, line, msg)
 
 app = QApplication(sys.argv)
 
+page = WebPage()
+page.mainFrame().addToJavaScriptWindowObject('shamanStorage', Storage())
+
 web = QWebView()
+web.setPage(page)
 web.load(QUrl(indexfile))
-web.page().mainFrame().addToJavaScriptWindowObject('shamanStorage', Storage())
 web.show()
 
 sys.exit(app.exec_())
