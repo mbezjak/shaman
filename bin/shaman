@@ -12,17 +12,19 @@ datafile   = path.join(shamanhome, 'data/data.json')
 indexfile  = path.join(shamanhome, 'app/index.html')
 
 class Storage(QObject):
-    @pyqtSlot(result=str)
-    def read(self):
+    @pyqtProperty(str)
+    def data(self):
+        print 'get'
         if path.isfile(datafile):
             with open(datafile, 'r+') as f:
                 return f.read()
-        else: return '[]'
+        else: return '{"shows":[]}'
 
-    @pyqtSlot(QVariant)
-    def write(self, value):
+    @data.setter
+    def data(self, value):
+        print 'set'
         with open(datafile, 'w+') as f:
-            f.write(value.toString())
+            f.write(str(value))
 
 
 app = QApplication(sys.argv)
