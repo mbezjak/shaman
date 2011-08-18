@@ -28,7 +28,7 @@ class Storage(QObject):
 
 class WebPage(QWebPage):
     def javaScriptConsoleMessage(self, msg, line, source):
-        print '%s line %d: %s' % (source, line, msg)
+        print '{}:{} => {}'.format(source, line, msg)
 
 app = QApplication(sys.argv)
 
