@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Ext.ns('shaman');
+
+shaman.runsInEmbeddedWebKit = function() {
+  return !!window.shamanStorage;
+};
+
 Ext.define('shaman.Show', {
   extend: 'Ext.data.Model',
   idProperty: 'name',
@@ -27,23 +33,26 @@ Ext.define('shaman.Show', {
   ]
 });
 
+Ext.define('shaman.StorageProxy', {
+  extend: 'Ext.data.proxy.WebStorage',
+  alias: 'proxy.shamanstorage',
+
+  getStorageObject: function() {
+    return window.shamanStorage;
+  }
+});
+
 Ext.define('shaman.Store', {
   extend: 'Ext.data.Store',
   model: 'shaman.Show',
   groupField: 'group',
   proxy: {
-    type: 'memory',
+    type: shaman.runsInEmbeddedWebKit() ? 'shamanstorage' : 'localstorage',
+    id: 'shows',
     reader: {
       type: 'json',
       root: 'shows'
     }
-  },
-  data: {
-    shows: [
-      { name: 'foo', group: 'active' },
-      { name: 'bar', group: 'inactive', season: 1 },
-      { name: 'qux', group: 'inactive', season: 1, episode: 17 },
-    ]
   }
 });
 
