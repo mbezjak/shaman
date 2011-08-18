@@ -14,21 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Ext.ns('shaman');
-
-shaman.runsInEmbeddedWebKit = function() {
-  return !!window.shamanStorage;
-};
-
-Ext.define('shaman.StorageProxy', {
-  extend: 'Ext.data.proxy.WebStorage',
-  alias: 'proxy.shamanstorage',
-
-  getStorageObject: function() {
-    return window.shamanStorage;
-  }
-});
-
 Ext.define('shaman.Show', {
   extend: 'Ext.data.Model',
   idProperty: 'name',
@@ -39,21 +24,20 @@ Ext.define('shaman.Show', {
     { name: 'episode', type: 'int'    },
     { name: 'imdb',    type: 'string' },
     { name: 'wiki',    type: 'string' }
-  ],
-  proxy: {
-    type: shaman.runsInEmbeddedWebKit() ? 'shamanstorage' : 'localstorage',
-    id: 'shows',
-    reader: {
-      type: 'json',
-      root: 'shows'
-    }
-  }
+  ]
 });
 
 Ext.define('shaman.Store', {
   extend: 'Ext.data.Store',
   model: 'shaman.Show',
-  groupField: 'group'
+  groupField: 'group',
+  proxy: {
+    type: 'memory',
+    reader: {
+      type: 'json',
+      root: 'shows'
+    }
+  }
 });
 
 Ext.define('shaman.Grid', {
@@ -86,11 +70,7 @@ Ext.onReady(function() {
     tbar: [{
       text: 'Add Show',
       handler: function() {
-        rowEditing.cancelEdit();
-
-        var show = Ext.ModelManager.create({}, 'shaman.Show');
-        store.insert(0, show);
-
+        store.insert(0, new shaman.Show());
         rowEditing.startEdit(0, 0);
       }
     }]
