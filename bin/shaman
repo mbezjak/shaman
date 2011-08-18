@@ -8,21 +8,31 @@ from PyQt4.QtWebKit import *
 
 bindir     = path.dirname(path.realpath(__file__))
 shamanhome = path.realpath(path.join(bindir, '..'))
-datafile   = path.join(shamanhome, 'data/data.json')
+datatpl    = path.join(shamanhome, 'data/{0!s}.json')
 indexfile  = path.join(shamanhome, 'app/index.html')
 
 class Storage(QObject):
-    @pyqtProperty(str)
-    def data(self):
-        print 'get'
+    "Mimics HTML5 sessionStorage, localStorage or globalStorage"
+
+    @pyqtSlot(QString, result=str)
+    def getItem(self, key):
+        datafile = datatpl.format(key)
+        print 'get ' + datafile
         if path.isfile(datafile):
             with open(datafile, 'r+') as f:
                 return f.read()
-        else: return '{"shows":[]}'
+        else: return ''
 
-    @data.setter
-    def data(self, value):
-        print 'set'
+    @pyqtSlot(QString)
+    def removeItem(self, key):
+        datafile = datatpl.format(key)
+        print 'remove ' + datafile
+        if path.isfile(datafile): os.remove(datafile)
+
+    @pyqtSlot(QString, QString)
+    def setItem(self, key, value):
+        datafile = datatpl.format(key)
+        print 'set ' + datafile
         with open(datafile, 'w+') as f:
             f.write(str(value))
 
@@ -32,7 +42,7 @@ class WebPage(QWebPage):
 
 app = QApplication(sys.argv)
 
-page = WebPage()
+page = QWebPage()
 page.mainFrame().addToJavaScriptWindowObject('shamanStorage', Storage())
 
 web = QWebView()
