@@ -1,6 +1,7 @@
 #!/usr/bin/env python2.7
 
 import sys
+import os
 from os import path
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
