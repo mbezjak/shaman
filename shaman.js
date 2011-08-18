@@ -14,6 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Ext.ns('shaman', 'shaman.data');
+
+shaman.data.intoString = function (data) {
+  return JSON.stringify(data, null, '  ');
+};
+
+shaman.data.fromString = function (data) {
+  return JSON.parse(data);
+};
+
+shaman.data.read = function() {
+  var data = window.shamanStorage ? shamanStorage.read() : localStorage.shows;
+  return shaman.data.fromString(data) || [];
+};
+
 Ext.define('shaman.Show', {
   extend: 'Ext.data.Model',
   idProperty: 'name',
@@ -57,7 +72,9 @@ Ext.define('shaman.Grid', {
 
 Ext.onReady(function() {
 
-  var store = new shaman.Store();
+  var store = new shaman.Store({
+    data: { shows: shaman.data.read() }
+  });
 
   var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
     clicksToEdit: 1
