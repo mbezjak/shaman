@@ -20,6 +20,15 @@ shaman.runsInEmbeddedWebKit = function() {
   return !!window.shamanStorage;
 };
 
+Ext.define('shaman.StorageProxy', {
+  extend: 'Ext.data.proxy.WebStorage',
+  alias: 'proxy.shamanstorage',
+
+  getStorageObject: function() {
+    return window.shamanStorage;
+  }
+});
+
 Ext.define('shaman.Show', {
   extend: 'Ext.data.Model',
   idProperty: 'name',
@@ -30,22 +39,7 @@ Ext.define('shaman.Show', {
     { name: 'episode', type: 'int'    },
     { name: 'imdb',    type: 'string' },
     { name: 'wiki',    type: 'string' }
-  ]
-});
-
-Ext.define('shaman.StorageProxy', {
-  extend: 'Ext.data.proxy.WebStorage',
-  alias: 'proxy.shamanstorage',
-
-  getStorageObject: function() {
-    return window.shamanStorage;
-  }
-});
-
-Ext.define('shaman.Store', {
-  extend: 'Ext.data.Store',
-  model: 'shaman.Show',
-  groupField: 'group',
+  ],
   proxy: {
     type: shaman.runsInEmbeddedWebKit() ? 'shamanstorage' : 'localstorage',
     id: 'shows',
@@ -54,6 +48,12 @@ Ext.define('shaman.Store', {
       root: 'shows'
     }
   }
+});
+
+Ext.define('shaman.Store', {
+  extend: 'Ext.data.Store',
+  model: 'shaman.Show',
+  groupField: 'group'
 });
 
 Ext.define('shaman.Grid', {
