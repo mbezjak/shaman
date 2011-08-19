@@ -64,6 +64,7 @@ Ext.define('shaman.Show', {
 Ext.define('shaman.Store', {
   extend: 'Ext.data.Store',
   model: 'shaman.Show',
+  storeId: 'shows',
   groupField: 'group',
   listeners: {
     add: shaman.data.write,
