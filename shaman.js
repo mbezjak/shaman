@@ -25,8 +25,27 @@ shaman.data.fromString = function (data) {
 };
 
 shaman.data.read = function() {
-  var data = window.shamanStorage ? shamanStorage.read() : localStorage.shows;
+  var data;
+  if (window.shamanStorage) {
+    data = shamanStorage.read();
+  } else {
+    data = localStorage.getItem('shows');
+  }
+
   return shaman.data.fromString(data) || [];
+};
+
+shaman.data.write = function(store) {
+  var data = store.getRange().map(function(model) {
+    return model.data;
+  });
+  var value = shaman.data.intoString(data);
+
+  if (window.shamanStorage) {
+    shamanStorage.write(value);
+  } else {
+    localStorage.setItem('shows', value);
+  }
 };
 
 Ext.define('shaman.Show', {
@@ -52,6 +71,11 @@ Ext.define('shaman.Store', {
       type: 'json',
       root: 'shows'
     }
+  },
+  listeners: {
+    add: shaman.data.write,
+    remove: shaman.data.write,
+    update: shaman.data.write
   }
 });
 
