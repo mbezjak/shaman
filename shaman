@@ -1,6 +1,7 @@
 #!/usr/bin/env python2.7
 
 import sys
+import webbrowser
 from os import path
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -25,6 +26,13 @@ class Storage(QObject):
         with open(datafile, 'w+') as f:
             f.write(str(value))
 
+class Browser(QObject):
+    "Provides ability to open url links"
+
+    @pyqtSlot(QString)
+    def open(self, link):
+        webbrowser.open(str(link))
+
 class WebPage(QWebPage):
     def javaScriptConsoleMessage(self, msg, line, source):
         print '{}:{} => {}'.format(source, line, msg)
@@ -32,9 +40,11 @@ class WebPage(QWebPage):
 app = QApplication(sys.argv)
 
 page = WebPage()
-def bindShamanStorage():
-    page.mainFrame().addToJavaScriptWindowObject('shamanStorage', Storage())
-page.loadFinished.connect(bindShamanStorage)
+def bindObjects():
+    frame = page.mainFrame()
+    frame.addToJavaScriptWindowObject('shamanStorage', Storage())
+    frame.addToJavaScriptWindowObject('shamanBrowser', Browser())
+page.loadFinished.connect(bindObjects)
 
 web = QWebView()
 web.setPage(page)

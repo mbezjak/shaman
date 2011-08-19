@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Ext.ns('shaman', 'shaman.data');
+Ext.ns('shaman', 'shaman.data', 'shaman.link');
 
 shaman.data.intoString = function (data) {
   return JSON.stringify(data, null, '  ');
@@ -45,6 +45,30 @@ shaman.data.write = function(store) {
     shamanStorage.write(value);
   } else {
     localStorage.setItem('shows', value);
+  }
+};
+
+shaman.link.imdb = function(model) {
+  var link = model.get('imdb');
+  var name = model.get('name');
+  var search = 'http://www.imdb.com/find?s=tt&q={0}';
+
+  return link || Ext.String.format(search, name);
+};
+
+shaman.link.wiki = function(model) {
+  var link = model.get('wiki');
+  var name = model.get('name');
+  var search = 'http://en.wikipedia.org/wiki/Special:Search?search={0}';
+
+  return link || Ext.String.format(search, name);
+};
+
+shaman.link.open = function(link) {
+  if (window.shamanBrowser) {
+    shamanBrowser.open(link);
+  } else {
+    window.open(link);
   }
 };
 
@@ -82,7 +106,22 @@ Ext.define('shaman.Grid', {
     { header: 'Season',  dataIndex: 'season',  editor: 'numberfield' },
     { header: 'Episode', dataIndex: 'episode', editor: 'numberfield' },
     { header: 'imdb',    dataIndex: 'imdb',    editor: 'textfield'   },
-    { header: 'wiki',    dataIndex: 'wiki',    editor: 'textfield'   }
+    { header: 'wiki',    dataIndex: 'wiki',    editor: 'textfield'   },
+    { xtype: 'actioncolumn',
+      items: [{
+        icon: 'resources/imdb.ico',
+        handler: function(self, rowIndex) {
+          var model = self.getStore().getAt(rowIndex);
+          shaman.link.open(shaman.link.imdb(model));
+        }
+      }, {
+        icon: 'resources/wiki.ico',
+        handler: function(self, rowIndex) {
+          var model = self.getStore().getAt(rowIndex);
+          shaman.link.open(shaman.link.wiki(model));
+        }
+      }]
+    }
   ],
   selType: 'rowmodel',
   features: [{ ftype: 'grouping' }]
