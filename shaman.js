@@ -137,16 +137,23 @@ Ext.onReady(function() {
     clicksToEdit: 1
   });
 
+  var addShow = function() {
+    store.insert(0, new shaman.Show());
+    rowEditing.startEdit(0, 0);
+  };
+
+  new Ext.util.KeyMap(Ext.getBody(), {
+    key: Ext.EventObject.F9,
+    handler: addShow
+  });
+
   var grid = new shaman.Grid({
     region: 'center',
     store: store,
     plugins: rowEditing,
     tbar: [{
       text: 'Add Show',
-      handler: function() {
-        store.insert(0, new shaman.Show());
-        rowEditing.startEdit(0, 0);
-      }
+      handler: addShow
     }, {
       text: 'Delete Show',
       handler: function() {
