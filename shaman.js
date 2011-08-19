@@ -65,10 +65,7 @@ Ext.define('shaman.Store', {
   extend: 'Ext.data.Store',
   model: 'shaman.Show',
   groupField: 'group',
-  proxy: {
-    type: 'memory',
-    reader: { type: 'json' }
-  },
+  proxy: 'memory',
   listeners: {
     add: shaman.data.write,
     remove: shaman.data.write,
