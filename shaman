@@ -32,7 +32,9 @@ class WebPage(QWebPage):
 app = QApplication(sys.argv)
 
 page = WebPage()
-page.mainFrame().addToJavaScriptWindowObject('shamanStorage', Storage())
+def bindShamanStorage():
+    page.mainFrame().addToJavaScriptWindowObject('shamanStorage', Storage())
+page.loadFinished.connect(bindShamanStorage)
 
 web = QWebView()
 web.setPage(page)
