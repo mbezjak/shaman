@@ -102,7 +102,7 @@ Ext.define('shaman.Grid', {
   title: 'Shaman',
   columns: [
     { header: 'Name',    dataIndex: 'name',    editor: 'textfield'   },
-    { header: 'Group',   dataIndex: 'group',   editor: 'textfield'   },
+    { header: 'Group',   dataIndex: 'group',   editor: { xtype: 'combobox', forceSelection: true, store: ['active', 'inactive', 'maybe', 'notwatching', 'ended']} },
     { header: 'Season',  dataIndex: 'season',  editor: 'numberfield' },
     { header: 'Episode', dataIndex: 'episode', editor: 'numberfield' },
     { header: 'imdb',    dataIndex: 'imdb',    editor: 'textfield'   },
