@@ -108,6 +108,14 @@ Ext.onReady(function() {
         store.insert(0, new shaman.Show());
         rowEditing.startEdit(0, 0);
       }
+    }, {
+      text: 'Delete Show',
+      handler: function() {
+        var selected = grid.getSelectionModel().getSelection()[0];
+        if (selected) {
+          store.remove(selected);
+        }
+      }
     }]
   });
 
