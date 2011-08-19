@@ -138,7 +138,7 @@ Ext.onReady(function() {
   });
 
   var addShow = function() {
-    store.insert(0, new shaman.Show());
+    store.insert(0, new shaman.Show({ group: 'maybe' }));
     rowEditing.startEdit(0, 0);
   };
 
