@@ -67,10 +67,7 @@ Ext.define('shaman.Store', {
   groupField: 'group',
   proxy: {
     type: 'memory',
-    reader: {
-      type: 'json',
-      root: 'shows'
-    }
+    reader: { type: 'json' }
   },
   listeners: {
     add: shaman.data.write,
@@ -97,7 +94,7 @@ Ext.define('shaman.Grid', {
 Ext.onReady(function() {
 
   var store = new shaman.Store({
-    data: { shows: shaman.data.read() }
+    data: shaman.data.read()
   });
 
   var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
