@@ -164,7 +164,7 @@ Ext.onReady(function() {
   });
 
   var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
-    clicksToEdit: 1
+    clicksToEdit: 2
   });
 
   var addShow = function() {
