@@ -26,7 +26,7 @@ When running `shaman` command dependencies are:
  * [pyqt](http://riverbankcomputing.co.uk/software/pyqt/intro) module
 
 When opening `index.html` there are no dependencies besides modern browser - no
-IE8 or below!.
+IE8 or below!
 
 ## Source code
 Source code is available at github: https://github.com/mbezjak/shaman
