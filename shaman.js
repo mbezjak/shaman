@@ -77,7 +77,7 @@ shaman.link.isohunt = function(model) {
   var name = model.get('name');
   var season = Ext.String.leftPad(model.get('season'), 2, '0');
   var episode = Ext.String.leftPad(model.get('episode'), 2, '0');
-  var search = 'http://btjunkie.org/search?q={0} s{1}e{2}';
+  var search = 'http://isohunt.com/torrents/?ihq={0} s{1}e{2}';
 
   return Ext.String.format(search, name, season, episode);
 };
