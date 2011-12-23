@@ -65,7 +65,7 @@ page.loadFinished.connect(bindObjects)
 
 web = QWebView()
 web.setPage(page)
-web.load(QUrl(indexfile))
+web.load(QUrl("file://" + indexfile))
 web.show()
 
 sys.exit(app.exec_())
