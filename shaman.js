@@ -188,10 +188,15 @@ Ext.onReady(function() {
     }]
   });
 
+  var disclaimer = new Ext.Component({
+    region : 'south',
+    html   : '<i>All icons belong to their respective owners</i>'
+  });
+
   new Ext.Viewport({
     layout   : 'border',
     renderTo : Ext.getBody(),
-    items    : [grid]
+    items    : [grid, disclaimer]
   });
 
 });
