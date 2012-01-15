@@ -59,7 +59,7 @@ shaman.link.imdb = function(model) {
 shaman.link.wiki = function(model) {
   var link   = model.get('wiki');
   var name   = model.get('name');
-  var search = 'http://en.wikipedia.org/wiki/Special:Search?search={0}';
+  var search = 'http://en.wikipedia.org/wiki/Special:Search?search={0} tv';
 
   return link || Ext.String.format(search, name);
 };
