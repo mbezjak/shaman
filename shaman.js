@@ -90,6 +90,17 @@ shaman.link.open = function(link) {
   }
 };
 
+shaman.link.createAction = function(linkFn, icon) {
+  return {
+    icon    : 'resources/' + icon,
+    handler : function(self, rowIndex) {
+      var model = self.getStore().getAt(rowIndex);
+      var link  = shaman.link[linkFn](model);
+      shaman.link.open(link);
+    }
+  };
+};
+
 Ext.define('shaman.Show', {
   extend     : 'Ext.data.Model',
   idProperty : 'name',
@@ -118,6 +129,8 @@ Ext.define('shaman.Store', {
 Ext.define('shaman.Grid', {
   extend   : 'Ext.grid.Panel',
   title    : 'Shaman',
+  selType  : 'rowmodel',
+  features : [{ ftype: 'grouping' }],
   columns  : [
     { header: 'Name',    dataIndex: 'name',    editor: 'textfield'   },
     { header: 'Group',   dataIndex: 'group',   editor: { xtype: 'combobox', store: ['active', 'inactive', 'maybe', 'notwatching', 'ended']} },
@@ -125,36 +138,13 @@ Ext.define('shaman.Grid', {
     { header: 'Episode', dataIndex: 'episode', editor: 'numberfield' },
     { header: 'imdb',    dataIndex: 'imdb',    editor: 'textfield'   },
     { header: 'wiki',    dataIndex: 'wiki',    editor: 'textfield'   },
-    { xtype: 'actioncolumn',
-      items: [{
-        icon: 'resources/imdb.ico',
-        handler: function(self, rowIndex) {
-          var model = self.getStore().getAt(rowIndex);
-          shaman.link.open(shaman.link.imdb(model));
-        }
-      }, {
-        icon: 'resources/wiki.ico',
-        handler: function(self, rowIndex) {
-          var model = self.getStore().getAt(rowIndex);
-          shaman.link.open(shaman.link.wiki(model));
-        }
-      }, {
-        icon: 'resources/btjunkie.ico',
-        handler: function(self, rowIndex) {
-          var model = self.getStore().getAt(rowIndex);
-          shaman.link.open(shaman.link.btjunkie(model));
-        }
-      }, {
-        icon: 'resources/isohunt.png',
-        handler: function(self, rowIndex) {
-          var model = self.getStore().getAt(rowIndex);
-          shaman.link.open(shaman.link.isohunt(model));
-        }
-      }]
-    }
-  ],
-  selType  : 'rowmodel',
-  features : [{ ftype: 'grouping' }]
+    { xtype: 'actioncolumn', items: [
+        shaman.link.createAction('imdb',     'imdb.ico'),
+        shaman.link.createAction('wiki',     'wiki.ico'),
+        shaman.link.createAction('btjunkie', 'btjunkie.ico'),
+        shaman.link.createAction('isohunt',  'isohunt.png')
+      ] }
+  ]
 });
 
 Ext.onReady(function() {
