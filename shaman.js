@@ -149,6 +149,8 @@ Ext.define('shaman.Grid', {
 
 Ext.onReady(function() {
 
+  Ext.tip.QuickTipManager.init();
+
   var store = new shaman.Store({
     data : shaman.data.read()
   });
@@ -173,6 +175,7 @@ Ext.onReady(function() {
     plugins : rowEditing,
     tbar    : [{
       text    : 'Add Show',
+      tooltip : 'Shortcut key: <b>F9</b>',
       handler : addShow
     }, {
       text    : 'Delete Show',
