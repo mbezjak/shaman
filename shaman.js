@@ -48,12 +48,27 @@ shaman.data.write = function(store) {
   }
 };
 
+shaman.data.appendPath = function(base, suffix) {
+  if (base.charAt(base.length - 1) !== '/') {
+    base += '/';
+  }
+
+  return base + suffix;
+};
+
 shaman.link.imdb = function(model) {
   var link   = model.get('imdb');
   var name   = model.get('name');
   var search = 'http://www.imdb.com/find?s=tt&q={0}';
 
   return link || Ext.String.format(search, name);
+};
+
+shaman.link.imdbSeason = function(model) {
+  var link   = model.get('imdb');
+  var suffix = Ext.String.format('episodes?season={0}', model.get('season'));
+
+  return link ? shaman.data.appendPath(link, suffix) : shaman.link.imdb(model);
 };
 
 shaman.link.wiki = function(model) {
@@ -139,10 +154,11 @@ Ext.define('shaman.Grid', {
     { header: 'imdb',    dataIndex: 'imdb',    editor: 'textfield'   },
     { header: 'wiki',    dataIndex: 'wiki',    editor: 'textfield'   },
     { xtype: 'actioncolumn', items: [
-        shaman.link.createAction('imdb',     'imdb.ico'),
-        shaman.link.createAction('wiki',     'wiki.ico'),
-        shaman.link.createAction('btjunkie', 'btjunkie.ico'),
-        shaman.link.createAction('isohunt',  'isohunt.png')
+        shaman.link.createAction('imdb',       'imdb.ico'),
+        shaman.link.createAction('imdbSeason', 'format-justify-center.png'),
+        shaman.link.createAction('wiki',       'wiki.ico'),
+        shaman.link.createAction('btjunkie',   'btjunkie.ico'),
+        shaman.link.createAction('isohunt',    'isohunt.png')
       ] }
   ]
 });
