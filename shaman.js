@@ -79,15 +79,6 @@ shaman.link.wiki = function(model) {
   return link || Ext.String.format(search, name);
 };
 
-shaman.link.btjunkie = function(model) {
-  var name    = model.get('name');
-  var season  = Ext.String.leftPad(model.get('season'), 2, '0');
-  var episode = Ext.String.leftPad(model.get('episode'), 2, '0');
-  var search  = 'http://btjunkie.org/search?q={0} s{1}e{2}';
-
-  return Ext.String.format(search, name, season, episode);
-};
-
 shaman.link.isohunt = function(model) {
   var name    = model.get('name');
   var season  = Ext.String.leftPad(model.get('season'), 2, '0');
@@ -157,7 +148,6 @@ Ext.define('shaman.Grid', {
         shaman.link.createAction('imdb',       'imdb.ico'),
         shaman.link.createAction('imdbSeason', 'format-justify-center.png'),
         shaman.link.createAction('wiki',       'wiki.ico'),
-        shaman.link.createAction('btjunkie',   'btjunkie.ico'),
         shaman.link.createAction('isohunt',    'isohunt.png')
       ] }
   ]
