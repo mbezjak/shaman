@@ -28,8 +28,10 @@ When running `shaman` command dependencies are:
 When opening `index.html` there are no dependencies besides modern browser - no
 IE8 or below!
 
-## Source code
-Source code is available at github: https://github.com/mbezjak/shaman
+## Further Resources
 
-## License
-Project uses GPLv3 license. Check LICENSE file for more info.
+ * Homepage:   https://github.com/mbezjak/shaman
+ * Issues:     https://github.com/mbezjak/shaman/issues
+ * Changelog:  see Changelog.md file
+ * Roadmap:    see Roadmap.md file
+ * License:    GPLv3 (see LICENSE file)
