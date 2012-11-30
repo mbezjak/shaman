@@ -16,12 +16,27 @@
 
 Ext.ns('shaman', 'shaman.data', 'shaman.link');
 
+shaman.data.dateAsString = function(date) {
+  return Ext.Date.format(date, 'Y-m-d');
+};
+
+shaman.data.stringAsDate = function(date) {
+  return Ext.Date.parse(date, 'Y-m-d');
+};
+
+shaman.data.withUpdated = function(array, fn) {
+  return (array || []).map(function(obj) {
+    return Ext.applyIf({ updated : fn(obj.updated) }, obj);
+  });
+};
+
 shaman.data.intoString = function (data) {
-  return JSON.stringify(data, null, '  ');
+  var withUpdated = shaman.data.withUpdated(data, shaman.data.dateAsString);
+  return JSON.stringify(withUpdated, null, '  ');
 };
 
 shaman.data.fromString = function (data) {
-  return JSON.parse(data);
+  return shaman.data.withUpdated(JSON.parse(data), shaman.data.stringAsDate);
 };
 
 shaman.data.read = function() {
@@ -35,9 +50,14 @@ shaman.data.read = function() {
   return shaman.data.fromString(data) || [];
 };
 
+shaman.data.update = function(store, record) {
+  record.set('updated', new Date());
+  shaman.data.write(store);
+};
+
 shaman.data.write = function(store) {
   var data = store.getRange().map(function(model) {
-    return model.data;
+    return model.getData();
   });
   var value = shaman.data.intoString(data);
 
@@ -107,6 +127,15 @@ shaman.link.createAction = function(linkFn, icon) {
   };
 };
 
+shaman.xDaysAgo = function(date) {
+  if (!date) return "";
+
+  var diff = Date.now() - date.getTime();
+  var days = Ext.Date.getDayOfYear(new Date(diff));
+
+  return (days === 0) ? 'today' : (days + ' day(s) ago');
+};
+
 Ext.define('shaman.Show', {
   extend     : 'Ext.data.Model',
   idProperty : 'name',
@@ -115,6 +144,7 @@ Ext.define('shaman.Show', {
     { name : 'group',   type : 'string' },
     { name : 'season',  type : 'int'    },
     { name : 'episode', type : 'int'    },
+    { name : 'updated', type : 'date'   },
     { name : 'imdb',    type : 'string' },
     { name : 'wiki',    type : 'string' }
   ]
@@ -128,7 +158,7 @@ Ext.define('shaman.Store', {
   listeners  : {
     add    : shaman.data.write,
     remove : shaman.data.write,
-    update : shaman.data.write
+    update : shaman.data.update
   }
 });
 
@@ -138,12 +168,13 @@ Ext.define('shaman.Grid', {
   selType  : 'rowmodel',
   features : [{ ftype: 'grouping' }],
   columns  : [
-    { header: 'Name',    dataIndex: 'name',    editor: 'textfield'   },
-    { header: 'Group',   dataIndex: 'group',   editor: { xtype: 'combobox', store: ['active', 'inactive', 'maybe', 'notwatching', 'ended']} },
-    { header: 'Season',  dataIndex: 'season',  editor: 'numberfield' },
-    { header: 'Episode', dataIndex: 'episode', editor: 'numberfield' },
-    { header: 'imdb',    dataIndex: 'imdb',    editor: 'textfield'   },
-    { header: 'wiki',    dataIndex: 'wiki',    editor: 'textfield'   },
+    { header: 'Name',        dataIndex: 'name',    editor: 'textfield'   },
+    { header: 'Group',       dataIndex: 'group',   editor: { xtype: 'combobox', store: ['active', 'inactive', 'maybe', 'notwatching', 'ended']} },
+    { header: 'Season',      dataIndex: 'season',  editor: 'numberfield' },
+    { header: 'Episode',     dataIndex: 'episode', editor: 'numberfield' },
+    { header: 'Last update', dataIndex: 'updated', renderer: shaman.xDaysAgo },
+    { header: 'imdb',        dataIndex: 'imdb',    editor: 'textfield'   },
+    { header: 'wiki',        dataIndex: 'wiki',    editor: 'textfield'   },
     { xtype: 'actioncolumn', items: [
         shaman.link.createAction('imdb',       'imdb.ico'),
         shaman.link.createAction('imdbSeason', 'format-justify-center.png'),
@@ -166,7 +197,7 @@ Ext.onReady(function() {
   });
 
   var addShow = function() {
-    store.insert(0, new shaman.Show({ group: 'maybe' }));
+    store.insert(0, new shaman.Show({ group: 'maybe', updated: new Date() }));
     rowEditing.startEdit(0, 0);
   };
 
