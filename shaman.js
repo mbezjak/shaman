@@ -134,7 +134,7 @@ shaman.xDaysAgo = function(date) {
   var millisPerDay = 1000 * 60 * 60 * 24;
   var days         = Math.floor(diff / millisPerDay);
 
-  return (days === 0) ? 'today' : (days + ' day(s) ago');
+  return (days === 0) ? 'today' : (Ext.util.Format.plural(days, 'day') + ' ago');
 };
 
 Ext.define('shaman.Show', {
