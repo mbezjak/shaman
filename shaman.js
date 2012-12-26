@@ -130,8 +130,9 @@ shaman.link.createAction = function(linkFn, icon) {
 shaman.xDaysAgo = function(date) {
   if (!date) return "";
 
-  var diff = Date.now() - date.getTime();
-  var days = Ext.Date.getDayOfYear(new Date(diff));
+  var diff         = Date.now() - date.getTime();
+  var millisPerDay = 1000 * 60 * 60 * 24;
+  var days         = Math.floor(diff / millisPerDay);
 
   return (days === 0) ? 'today' : (days + ' day(s) ago');
 };
