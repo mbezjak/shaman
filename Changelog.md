@@ -1,3 +1,6 @@
+# 0.6 [2012-12-28]
+ * Add favicon (http://pixabay.com/de/alte-lcd-satz-icon-cartoon-32080/)
+
 # 0.5 [2012-12-26]
  * `shaman.xDaysAgo` works when x > 365
  * use `Ext.util.Format.plural` in `shaman.xDaysAgo`
