@@ -1,7 +1,8 @@
 Release steps:
 
 1. Add `Changelog.md` entry
-2. Git work:
+2. Change version in `shaman.js`
+3. Git work:
 
         $ git tag --annotate $version
         $ git push
