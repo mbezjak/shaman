@@ -179,7 +179,7 @@ Ext.define('shaman.Grid', {
     { header: 'imdb',        dataIndex: 'imdb',    editor: 'textfield'   },
     { header: 'wiki',        dataIndex: 'wiki',    editor: 'textfield'   },
     { xtype: 'actioncolumn', items: [
-        shaman.link.createAction('imdb',       'imdb.ico'),
+        shaman.link.createAction('imdb',       'imdb.png'),
         shaman.link.createAction('imdbSeason', 'format-justify-center.png'),
         shaman.link.createAction('wiki',       'wiki.ico'),
         shaman.link.createAction('isohunt',    'isohunt.png')

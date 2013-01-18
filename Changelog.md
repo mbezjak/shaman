@@ -1,3 +1,6 @@
+# 0.6.1 [2013-01-18]
+ * Fix icon for imdb.
+
 # 0.6 [2012-12-28]
  * Add favicon (http://pixabay.com/en/old-lcd-set-icon-cartoon-32080/)
 
