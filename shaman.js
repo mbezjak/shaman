@@ -16,7 +16,7 @@
 
 Ext.ns('shaman', 'shaman.data', 'shaman.link');
 
-shaman.version = '0.6';
+shaman.version = '0.6.1';
 
 shaman.data.dateAsString = function(date) {
   return Ext.Date.format(date, 'Y-m-d');
