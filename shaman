@@ -55,19 +55,16 @@ class WebPage(QWebPage):
     def javaScriptConsoleMessage(self, msg, line, source):
         print '{}:{} => {}'.format(source, line, msg)
 
+
 app = QApplication(sys.argv)
 app.setWindowIcon(QIcon(iconfile))
-
-page = WebPage()
-def bindObjects():
-    frame = page.mainFrame()
-    frame.addToJavaScriptWindowObject('shamanStorage', Storage())
-    frame.addToJavaScriptWindowObject('shamanBrowser', Browser())
-page.loadFinished.connect(bindObjects)
-
 web = QWebView()
-web.setPage(page)
+web.setPage(WebPage())
 web.load(QUrl("file://" + indexfile))
-web.show()
 
+frame = web.page().mainFrame()
+frame.addToJavaScriptWindowObject('shamanStorage', Storage())
+frame.addToJavaScriptWindowObject('shamanBrowser', Browser())
+
+web.show()
 sys.exit(app.exec_())
