@@ -29,6 +29,12 @@ datafile  = path.join(home, 'data.json')
 indexfile = path.join(home, 'index.html')
 iconfile  = path.join(home, 'resources/shaman.png')
 
+# The amount of problems I have had with the following 40 line code is
+# astonishing. Either I'm the most unlucky man ever and have hit every single
+# regression and/or breaking change out there or the stability of python2,
+# python2-pyqy4, qtwebkit, python2-sip together is seriously questionable. I'm
+# not fond of those packages - at all.
+
 class Storage(QObject):
     "Provides storage to shaman web application"
 
@@ -62,9 +68,12 @@ web = QWebView()
 web.setPage(WebPage())
 web.load(QUrl("file://" + indexfile))
 
-frame = web.page().mainFrame()
-frame.addToJavaScriptWindowObject('shamanStorage', Storage())
-frame.addToJavaScriptWindowObject('shamanBrowser', Browser())
+# this shit does not work unless we keep the reference
+frame   = web.page().mainFrame()
+storage = Storage()
+browser = Browser()
+frame.addToJavaScriptWindowObject('shamanStorage', storage)
+frame.addToJavaScriptWindowObject('shamanBrowser', browser)
 
 web.show()
 sys.exit(app.exec_())
