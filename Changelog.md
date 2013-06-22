@@ -1,3 +1,8 @@
+# 0.6.3 [2013-06-22]
+ * fix bug because (would you believe it?) some packages were updated:
+   - python2-pyqt4 (4.10.1-1 -> 4.10.2-2)
+   - python2-sip (4.14.6-1 -> 4.14.7-1)
+
 # 0.6.2 [2013-03-08]
  * fix bug affecting qtwebkit 2.3.beta2, python2-pyqt 4.10 and/or python2-sip 4.14.4
 
