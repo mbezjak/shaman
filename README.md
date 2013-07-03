@@ -7,8 +7,7 @@ http://mbezjak.github.com/shaman
 
 ## Install
 (1) Download and extract latest `tar.gz`
-[release](https://github.com/mbezjak/shaman/archives/master). (2) Run `shaman`
-command:
+[release](https://github.com/mbezjak/shaman/releases). (2) Run `shaman` command:
 
     $ ./shaman
     # or
