@@ -1,3 +1,6 @@
+# 0.6.4 [2013-09-27]
+ * Update to ExtJS 4.2.1
+
 # 0.6.3 [2013-06-22]
  * fix bug because (would you believe it?) some packages were updated:
    - python2-pyqt4 (4.10.1-1 -> 4.10.2-2)
