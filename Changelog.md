@@ -1,3 +1,7 @@
+# 0.7 [2013-11-24]
+ * Replace isohunt with fenopy
+   - because legal platforms are US only
+
 # 0.6.4 [2013-09-27]
  * Update to ExtJS 4.2.1
 
