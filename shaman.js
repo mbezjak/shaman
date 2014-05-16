@@ -101,11 +101,11 @@ shaman.link.wiki = function(model) {
   return link || Ext.String.format(search, name);
 };
 
-shaman.link.fenopy = function(model) {
+shaman.link.kickass = function(model) {
   var name    = model.get('name');
   var season  = Ext.String.leftPad(model.get('season'), 2, '0');
   var episode = Ext.String.leftPad(model.get('episode'), 2, '0');
-  var search  = 'http://fenopy.se/?keyword={0} s{1}e{2}';
+  var search  = 'http://kickass.to/usearch/?q={0} s{1}e{2}';
 
   return Ext.String.format(search, name, season, episode);
 };
@@ -182,7 +182,7 @@ Ext.define('shaman.Grid', {
         shaman.link.createAction('imdb',       'imdb.png'),
         shaman.link.createAction('imdbSeason', 'format-justify-center.png'),
         shaman.link.createAction('wiki',       'wiki.ico'),
-        shaman.link.createAction('fenopy',     'fenopy.ico')
+        shaman.link.createAction('kickass',    'kickass.ico')
       ] }
   ]
 });

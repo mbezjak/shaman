@@ -1,3 +1,6 @@
+# 0.8 [2014-05-16]
+ * Replace fenopy with kickass
+
 # 0.7 [2013-11-24]
  * Replace isohunt with fenopy
    - because legal platforms are US only
