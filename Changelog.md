@@ -1,3 +1,6 @@
+# 0.9 [2015-03-01]
+ * Kickass link will open the next episode
+
 # 0.8 [2014-05-16]
  * Replace fenopy with kickass
 
