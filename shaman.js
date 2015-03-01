@@ -78,6 +78,14 @@ shaman.data.appendPath = function(base, suffix) {
   return base + suffix;
 };
 
+shaman.data.nextEpisode = function(current) {
+  return current == null ? 0 : current+1;
+};
+
+shaman.data.asTwoDigits = function(number) {
+  return Ext.String.leftPad(number, 2, '0');
+};
+
 shaman.link.imdb = function(model) {
   var link   = model.get('imdb');
   var name   = model.get('name');
@@ -103,11 +111,14 @@ shaman.link.wiki = function(model) {
 
 shaman.link.kickass = function(model) {
   var name    = model.get('name');
-  var season  = Ext.String.leftPad(model.get('season'), 2, '0');
-  var episode = Ext.String.leftPad(model.get('episode'), 2, '0');
+  var season  = model.get('season');
+  var episode = shaman.data.nextEpisode(model.get('episode'));
+
+  var seasonDigits  = shaman.data.asTwoDigits(season);
+  var episodeDigits = shaman.data.asTwoDigits(episode);
   var search  = 'http://kickass.to/usearch/?q={0} s{1}e{2}';
 
-  return Ext.String.format(search, name, season, episode);
+  return Ext.String.format(search, name, seasonDigits, episodeDigits);
 };
 
 shaman.link.open = function(link) {
