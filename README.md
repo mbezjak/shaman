@@ -1,6 +1,9 @@
 # shaman
 Track TV shows
 
+## Archived
+No longer used. No longer needed.
+
 ## Example
 See demo application without installing anything:
 http://mbezjak.github.com/shaman
